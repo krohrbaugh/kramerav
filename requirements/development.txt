@@ -1,0 +1,4 @@
+# Specifies requirements for developing the library itself,
+# as well as any runtime dependencies (via requirements.txt)
+-r requirements.txt
+setuptools >= 69.0.0

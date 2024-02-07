@@ -1,0 +1,21 @@
+[project]
+name = "kramerav"
+version = "0.1"
+authors = [
+  { name = "Kevin Rohrbaugh", email="code@rhrbgh.com" },
+]
+description = "Python API for controlling a Kramer HDMI switch using Protocol 2000"
+readme = "README.md"
+requires-python = ">=3.11"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python :: 3"
+]
+
+[project.urls]
+"Homepage" = "https://github.com/krohrbaugh/kramerav"
+"Bug Tracker" = "https://github.com/krohrbaugh/kramerav/issues"
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
