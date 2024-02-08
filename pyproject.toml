@@ -1,15 +1,23 @@
 [project]
 name = "kramerav"
-version = "0.1"
+version = "0.0.2"
 authors = [
   { name = "Kevin Rohrbaugh", email="code@rhrbgh.com" },
 ]
-description = "Python API for controlling a Kramer HDMI switch using Protocol 2000"
+description = "API for controlling a Kramer HDMI switch using Protocol 2000"
+keywords = ["home assistant", "home automation", "kramer", "hdmi", "video"]
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">= 3.11"
 classifiers = [
-    "Development Status :: 4 - Beta",
-    "Programming Language :: Python :: 3"
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Home Automation",
+    "Topic :: Multimedia :: Video",
+    "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 
 [project.urls]
@@ -17,5 +25,17 @@ classifiers = [
 "Bug Tracker" = "https://github.com/krohrbaugh/kramerav/issues"
 
 [build-system]
-requires = ["setuptools"]
-build-backend = "setuptools.build_meta"
+requires = [
+  "hatchling>=1.20.0",
+]
+build-backend = "hatchling.build"
+
+[tool.pytest.ini_options]
+addopts = [
+  "--import-mode=importlib"
+]
+minversion = "8.0"
+pythonpath = "./src"
+testpaths = [
+  "tests",
+]
