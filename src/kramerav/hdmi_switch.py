@@ -11,7 +11,6 @@ class HdmiSwitch(Protocol):
      """
      Lock panel
      """
-     ...
 
   def unlock():
      """
@@ -22,4 +21,3 @@ class HdmiSwitch(Protocol):
     """
     Returns `true` when panel is locked, `false` otherwise.
     """
-    ...
