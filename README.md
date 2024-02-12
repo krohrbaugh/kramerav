@@ -1,4 +1,4 @@
-# kramerav - Kramer Protcol 2000 video switch library
+# kessler-av
 
 Python library for controlling a Kramer HDMI switch that uses [Protocol
 2000][p2000] over a TCP connection.
@@ -8,7 +8,43 @@ integration.
 
 ## USAGE
 
-TODO: Write this.
+```py
+from kesslerav import get_media_switch
+
+device_url = '10.0.0.1'
+media_switch = get_media_switch(device_url)
+
+media_switch.select_source(3) # Change to input 3
+media_switch.lock() # Lock front panel
+media_switch.unlock() # Unlock front panel
+media_switch.update() # Refreshes device state
+```
+
+See `src/kesslerav/media_switch.py` for full `MediaSwitch` capabilities.
+
+### Device URL format
+
+The URL takes the form of `<scheme>://<host>:<port>#<protocol>` with all
+but the host being optional.
+
+Default scheme is `tcp`, with a default port of `5000`.
+
+Default protocol is Protocol 2000 (identifier: `protocol2k`.)
+
+Examples:
+
++ `10.0.0.1` ->
+  Scheme: `tcp`, Host: `10.0.0.1`, Port: `5000`, Protocol: `protocol2k`
++ `localhost:1337` ->
+  Scheme: `tcp`, Host: `localhost`, Port: `1337`, Protocol: `protocol2k`
++ localhost:1337#protocol2000 ->
+  Scheme: `tcp`, Host: `localhost`, Port: `1337`, Protocol: `protocol2k`
++ `tcp://10.0.0.1` ->
+  Scheme: `tcp`, Host: `10.0.0.1`, Port: `5000`, Protocol: `protocol2k`
++ `tcp://switch.local:8080` ->
+  Scheme: `tcp`, Host: `switch.local`, Port: `8080`, Protocol: `protocol2k`
++ `tcp://localhost:8080#protocol2k`
+  Scheme: `tcp`, Host: `localhost`, Port: `8080`, Protocol: `protocol2k`
 
 ## Limitations
 

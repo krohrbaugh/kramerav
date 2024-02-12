@@ -1,15 +1,15 @@
 [project]
-name = "kramerav"
-version = "0.0.2"
+name = "kessler-av"
+version = "0.8.0"
 authors = [
   { name = "Kevin Rohrbaugh", email="code@rhrbgh.com" },
 ]
-description = "API for controlling a Kramer HDMI switch using Protocol 2000"
+description = "API for controlling a Kramer media switch using Protocol 2000"
 keywords = ["home assistant", "home automation", "kramer", "hdmi", "video"]
 readme = "README.md"
 requires-python = ">= 3.11"
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Natural Language :: English",
@@ -21,8 +21,8 @@ classifiers = [
 ]
 
 [project.urls]
-"Homepage" = "https://github.com/krohrbaugh/kramerav"
-"Bug Tracker" = "https://github.com/krohrbaugh/kramerav/issues"
+"Homepage" = "https://github.com/krohrbaugh/kessler-av"
+"Bug Tracker" = "https://github.com/krohrbaugh/kessler-av/issues"
 
 [build-system]
 requires = [
@@ -30,10 +30,13 @@ requires = [
 ]
 build-backend = "hatchling.build"
 
+[tool.hatch.build.targets.wheel]
+packages = ["src/kesslerav"]
+
 [tool.pytest.ini_options]
-addopts = [
-  "--import-mode=importlib"
-]
+# addopts = [
+#   "--import-mode=importlib"
+# ]
 minversion = "8.0"
 testpaths = [
   "tests",
