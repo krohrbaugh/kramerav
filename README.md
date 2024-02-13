@@ -83,6 +83,30 @@ editable path, so that it can be loaded in the REPL and `pytest`.
 script/setup
 ```
 
+### Tests
+
+Run unit tests:
+
+```sh
+script/test
+```
+
+Tests can also be continuously run while developing with:
+
+```sh
+ptw .
+```
+
+### Build
+
+To build distributables:
+
+```sh
+script/build
+```
+
+Build artifacts will be placed in the `dist` directly.
+
 ### Publishing
 
 Build the distribution.
