@@ -130,8 +130,8 @@ script/publish
 ### Why `kessler-av`?
 
 In [Seinfeld][sf], the character [Cosmo Kramer][ck] was based on comedian [Kenny
-Kramer][kr2]. In the shows pilot, the producers hadn't gotten permission to use
-Kramer's name, so the character was called Kessler instead.
+Kramer][kr2]. In the shows pilot episode, the producers hadn't gotten permission
+to use Kramer's name, so the character was called Kessler instead.
 
 This library controls [Kramer A/V's][kramer] media switches, but doesn't have
 permission to use _their_ trademarked name. As a result, it seemed fitting to

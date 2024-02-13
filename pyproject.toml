@@ -1,6 +1,6 @@
 [project]
 name = "kessler-av"
-version = "0.8.2"
+version = "0.8.3"
 authors = [
   { name = "Kevin Rohrbaugh", email="code@rhrbgh.com" },
 ]
