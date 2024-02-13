@@ -1,7 +1,7 @@
 # kessler-av
 
-Python library for controlling a Kramer HDMI switch that uses [Protocol
-2000][p2000] over a TCP connection.
+Python library for controlling a [Kramer][kramer] media switch that uses
+[Protocol 2000][p2000] over a TCP connection.
 
 It's primarily intended for use as a device driver for a [Home Assistant][ha]
 integration.
@@ -25,7 +25,7 @@ See `src/kesslerav/media_switch.py` for full `MediaSwitch` capabilities.
 ### Device URL format
 
 The URL takes the form of `<scheme>://<host>:<port>#<protocol>` with all
-but the host being optional.
+but `host` being optional.
 
 Default scheme is `tcp`, with a default port of `5000`.
 
@@ -37,7 +37,7 @@ Examples:
   Scheme: `tcp`, Host: `10.0.0.1`, Port: `5000`, Protocol: `protocol2k`
 + `localhost:1337` ->
   Scheme: `tcp`, Host: `localhost`, Port: `1337`, Protocol: `protocol2k`
-+ localhost:1337#protocol2000 ->
++ `localhost:1337#protocol2000` ->
   Scheme: `tcp`, Host: `localhost`, Port: `1337`, Protocol: `protocol2k`
 + `tcp://10.0.0.1` ->
   Scheme: `tcp`, Host: `10.0.0.1`, Port: `5000`, Protocol: `protocol2k`
@@ -48,14 +48,18 @@ Examples:
 
 ## Limitations
 
-The library was tested and developed using a Kramer VS-161HDMI switch, but
-_should_ work for any Kramer switch using Protocol 2000.
+The library was tested and developed using a Kramer [VS-161HDMI switch][vs161h],
+but _should_ work for any Kramer switch using Protocol 2000.
 
 It does _not_ currently support:
 
 + _Matrix_ switch operations, since I don't have a device to test with
++ UDP communication, since I don't have a device to test with
 + Serial communication, since TCP is the more likely control mechanism for home
 automation purposes
+
+The library has extension points for adding the support above should an
+opportunity or need to do so arise.
 
 ## Development workflow
 
@@ -99,5 +103,20 @@ Publish the library to PyPI.
 script/publish
 ```
 
+### Why `kessler-av`?
+
+In [Seinfeld][sf], the character [Cosmo Kramer][ck] was based on comedian [Kenny
+Kramer][kr2]. In the shows pilot, the producers hadn't gotten permission to use
+Kenny Kramer's name, so the character was called Kessler instead.
+
+This library controls [Kramer A/V's][kramer] media switches, but doesn't have
+permission to use _their_ trademarked name. It seemed fitting, therefore, to
+name it `kessler-av`.
+
+[ck]: https://en.wikipedia.org/wiki/Cosmo_Kramer
 [ha]: https://www.home-assistant.io/
+[kr2]: https://en.wikipedia.org/wiki/Kenny_Kramer
+[kramer]: https://www.kramerav.com/
 [p2000]: https://cdn.kramerav.com/web/downloads/tech-papers/protocol_2000_rev0_51.pdf
+[sf]: https://en.wikipedia.org/wiki/Seinfeld
+[vs161h]: https://www1.kramerav.com/au/product/VS-161H
