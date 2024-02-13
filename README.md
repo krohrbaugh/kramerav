@@ -105,7 +105,7 @@ To build distributables:
 script/build
 ```
 
-Build artifacts will be placed in the `dist` directly.
+Build artifacts will be placed in the `dist` directory.
 
 ### Publishing
 
@@ -131,10 +131,10 @@ script/publish
 
 In [Seinfeld][sf], the character [Cosmo Kramer][ck] was based on comedian [Kenny
 Kramer][kr2]. In the shows pilot, the producers hadn't gotten permission to use
-Kenny Kramer's name, so the character was called Kessler instead.
+Kramer's name, so the character was called Kessler instead.
 
 This library controls [Kramer A/V's][kramer] media switches, but doesn't have
-permission to use _their_ trademarked name. It seemed fitting, therefore, to
+permission to use _their_ trademarked name. As a result, it seemed fitting to
 name it `kessler-av`.
 
 [ck]: https://en.wikipedia.org/wiki/Cosmo_Kramer
