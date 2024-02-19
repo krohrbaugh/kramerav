@@ -50,7 +50,7 @@ class MediaSwitch(MediaSwitchProtocol):
     self._process(self._update_instructions())
 
   @property
-  def selected_source(self):
+  def selected_source(self) -> int:
     """
     Returns the input number of the selected source
     """
@@ -71,14 +71,14 @@ class MediaSwitch(MediaSwitchProtocol):
     return self._output_count
 
   @property
-  def is_locked(self):
+  def is_locked(self) -> bool:
     """
     Returns `true` when panel is locked, `false` otherwise.
     """
     return self._is_locked
 
   @property
-  def machine_id(self):
+  def machine_id(self) -> int | None :
     return self._machine_id
 
   def _process(self, instructions: list[Instruction] | Instruction) -> None:

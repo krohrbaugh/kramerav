@@ -19,6 +19,7 @@ class Command(IntEnum):
   PANEL_LOCK = 30
   QUERY_OUTPUT_STATUS = 5
   QUERY_PANEL_LOCK = 31
+  IDENTIFY_MACHINE = 61
   DEFINE_MACHINE = 62
 
   @classmethod
