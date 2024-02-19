@@ -1,10 +1,8 @@
-from logging import getLogger as get_logger
 from typing import Optional
 
+from ..constants import LOGGER
 from ..media_switch import MediaSwitch as MediaSwitchProtocol
 from .io import Command, Instruction, TcpDevice
-
-_LOGGER = get_logger(__name__)
 
 class MediaSwitch(MediaSwitchProtocol):
   def __init__(self, device: TcpDevice, machine_id: Optional[int] = None):
@@ -102,7 +100,7 @@ class MediaSwitch(MediaSwitchProtocol):
         case Command.QUERY_PANEL_LOCK:
           self._is_locked = (instruction.output_value == 1)
         case _:
-          _LOGGER.info(f'Discarded instruction: {instruction}')
+          LOGGER.info('Discarded instruction: %s', instruction)
   
   def _update_instructions(self) -> list[Instruction]:
     return [

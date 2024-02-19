@@ -2,11 +2,10 @@ import itertools
 import socket
 import struct
 
+from ..constants import LOGGER
 from enum import IntEnum, unique
-from logging import getLogger as get_logger
 from typing import Optional
 
-_LOGGER = get_logger(__name__)
 
 @unique
 class Command(IntEnum):
@@ -245,7 +244,7 @@ class TcpDevice:
         result = self._execute_instruction(instruction, conn)
         results.append(result)
     except Exception as ex:
-      _LOGGER.error(f'Failed communicating with device: {ex}')
+      LOGGER.error('Failed communicating with device: %s', ex)
     finally:
       conn.close()
 
@@ -281,7 +280,7 @@ class TcpDevice:
           instruction = Codec.decode(resp_bytes)
           result.append(instruction)
     except TimeoutError:
-      _LOGGER.info(
+      LOGGER.info(
         'Timed out waiting for response. Ignoring, since another thread may '
         'have processed the response already.'
       )
