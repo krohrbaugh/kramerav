@@ -2,7 +2,7 @@
 set -e
 set -o pipefail
 
-if [ -z ${PROJECT_ROOT}]; then
+if [ -z ${PROJECT_ROOT} ]; then
   PROJECT_ROOT="$(git rev-parse --show-toplevel)"
 fi
 
