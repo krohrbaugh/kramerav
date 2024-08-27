@@ -37,7 +37,7 @@ class MediaSwitch(Protocol):
   @property
   def is_locked(self) -> bool:
     """ Returns `true` when front panel is locked, `false` otherwise.
-    
+
     Note that the device can still be controlled remotely when front panel is
     locked.
     """
@@ -53,3 +53,16 @@ class MediaSwitch(Protocol):
     """
     Returns the number of outputs the switch has
     """
+
+
+class MediaMatrix(MediaSwitch):
+    def set_route(self, input: int, output: int) -> None:
+        """ Define a route, input to output """
+
+    @property
+    def selected_source(self, output: int) -> int:
+        """ Returns input number for given output """
+
+    @property
+    def routing_table(self):
+        """ Returns current matrix routing setup """

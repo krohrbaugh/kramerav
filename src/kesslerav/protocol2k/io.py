@@ -1,6 +1,7 @@
 import itertools
 import socket
 import struct
+import time
 
 from ..constants import LOGGER
 from enum import IntEnum, unique
@@ -13,10 +14,11 @@ class Command(IntEnum):
   Enumerates the supported Protocol 2000 commands
   """
   SWITCH_VIDEO = 1
+  SWITCH_AUDIO = 2
   RECALL_VIDEO_STATUS = 4
   ERROR = 16
   PANEL_LOCK = 30
-  QUERY_OUTPUT_STATUS = 5
+  QUERY_OUTPUT_STATUS = 6 # Query audio status so we can transparently cope with audio only matrices - for video matrices the audio routing should always match the video routing
   QUERY_PANEL_LOCK = 31
   IDENTIFY_MACHINE = 61
   DEFINE_MACHINE = 62
@@ -25,12 +27,16 @@ class Command(IntEnum):
   def is_supported(cls, cmd_id: int) -> bool:
     return cmd_id in iter(Command)
 
+
 # Validation rules: limit I/O values to one byte
 _VALUE_MIN = 0
 _VALUE_MAX = 128 # Only 7 bits available for data transport
 _VALID_RANGE: range = range(_VALUE_MIN, _VALUE_MAX)
-  
-def _validated_value(maybe_value: Optional[int], default_value: int = 0) -> int:
+
+
+def _validated_value(
+    maybe_value: Optional[int],
+     default_value: int = 0) -> int:
   if maybe_value is None:
     return default_value
   if maybe_value not in _VALID_RANGE:
@@ -77,7 +83,7 @@ class Instruction:
       maybe_machine_id,
       Instruction.DEFAULT_MACHINE_ID
     )
-    
+
   @property
   def id(self) -> int:
     if self._command is not None:
@@ -144,7 +150,7 @@ class Codec:
     msg = cls._encode_message(instruction)
     data = bytes(msg)
     return data
-  
+
   @classmethod
   def decode(cls, data: bytes) -> Instruction:
     frame = cls._decode_message(data)
@@ -156,7 +162,7 @@ class Codec:
     cmd_id, *values = instruction.frame
     encoded_values = list(map(cls._encode_value, values))
     return [cmd_id] + encoded_values
-  
+
   @classmethod
   def _decode_message(cls, data: bytes) -> list[int]:
     cmd_id, *encoded_values = [byte for byte in data]
@@ -164,7 +170,7 @@ class Codec:
       # Command ID is likely a response-encoded ID; decode it
       cmd_id = cls._decode_command_id(cmd_id)
     values = list(map(cls._decode_value, encoded_values))
-    return [cmd_id] + values 
+    return [cmd_id] + values
 
   # Per protocol, the first bit for all I/O values must be 1
   @classmethod
@@ -230,7 +236,8 @@ class TcpDevice:
     ):
     self._endpoint = endpoint
 
-  def process(self, instructions: list[Instruction] | Instruction) -> list[Instruction]:
+  def process(self, instructions: list[Instruction]
+              | Instruction) -> list[Instruction]:
     try:
       _ = iter(instructions)
     except TypeError:
@@ -251,33 +258,33 @@ class TcpDevice:
     # Results is a list of lists, so flatten before returning
     flat_results = list(itertools.chain.from_iterable(results))
     return flat_results
-  
+
   def _create_connection(self) -> socket.socket:
     return socket.create_connection(
       (self._endpoint.host, self._endpoint.port),
       self._endpoint.timeout_sec
     )
-  
+
   def _execute_instruction(
       self,
       instruction: Instruction,
       conn: socket.socket
     ) -> list[Instruction]:
-    req_bytes = Codec.encode(instruction)
+    req_bytes= Codec.encode(instruction)
     conn.send(req_bytes)
-
     # Device can return multiple instructions when its physical controls are
     # used. To capture them all (to reconstruct device state) we read using a
     # buffer that can hold multiple instructions and then return them all in
     # chronological event order.
-    result: list[Instruction] = []
+    result: list[Instruction]= []
     try:
       while len(result) < 1:
-        data = conn.recv(TcpDevice.BUFFER_SIZE_BYTES)
-        responses = struct.iter_unpack(Instruction.FORMAT, data)
+        time.sleep(0.5) # Slow down to prevent 'port already in use' errors when interacting with serial over TCP TODO configurable, default off
+        data= conn.recv(TcpDevice.BUFFER_SIZE_BYTES)
+        responses= struct.iter_unpack(Instruction.FORMAT, data)
         for response in responses:
-          resp_bytes = response[0].to_bytes(Instruction.SIZE_BYTES)
-          instruction = Codec.decode(resp_bytes)
+          resp_bytes= response[0].to_bytes(Instruction.SIZE_BYTES)
+          instruction= Codec.decode(resp_bytes)
           result.append(instruction)
     except TimeoutError:
       LOGGER.info(

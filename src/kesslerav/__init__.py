@@ -3,7 +3,7 @@ from typing import Optional
 
 from .constants import PROTOCOL_2K, SCHEME_TCP
 from .url_parser import parse_url
-from .media_switch import MediaSwitch
+from .media_switch import MediaSwitch,  MediaMatrix
 
 from .protocol2k import get_tcp_media_switch
 
