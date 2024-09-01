@@ -35,6 +35,12 @@ class MediaSwitch(Protocol):
     """
 
   @property
+  def selected_audio_source(self) -> int:
+    """
+    Returns the input number of the selected audio source
+    """
+
+  @property
   def is_locked(self) -> bool:
     """ Returns `true` when front panel is locked, `false` otherwise.
 
@@ -53,16 +59,3 @@ class MediaSwitch(Protocol):
     """
     Returns the number of outputs the switch has
     """
-
-
-class MediaMatrix(MediaSwitch):
-    def set_route(self, input: int, output: int) -> None:
-        """ Define a route, input to output """
-
-    @property
-    def selected_source(self, output: int) -> int:
-        """ Returns input number for given output """
-
-    @property
-    def routing_table(self):
-        """ Returns current matrix routing setup """

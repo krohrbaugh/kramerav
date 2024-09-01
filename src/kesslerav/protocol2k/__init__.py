@@ -5,23 +5,23 @@ from typing import Optional
 
 from ..media_switch import MediaSwitch as MediaSwitchProtocol
 from .io import TcpDevice, TcpEndpoint, Instruction, Command
-from .media_switch import MediaSwitch, MediaMatrix
+from .media_switch import MediaSwitch
 
 
 def get_switch_or_matrix(connection_device, machine_id):
     # Need to know output count early when setting up matrix, so get it here
     output_count = connection_device.process(Instruction(Command.DEFINE_MACHINE, 2, 1, machine_id))[0].output_value
     if output_count > 1:
-        return MediaMatrix(connection_device, output_count, machine_id)
+        return [MediaSwitch(connection_device, machine_id, output_count) for output_count in range(output_count)]
     else:
-        return MediaSwitch(connection_device, machine_id)
+        return [MediaSwitch(connection_device, machine_id)]
 
 def get_tcp_media_switch(
     host: str,
     port: Optional[int] = None,
     timeout_sec: Optional[float] = None,
     machine_id: Optional[int] = None
-) -> MediaSwitchProtocol:
+) -> list[MediaSwitchProtocol]:
     if timeout_sec is None:
         # Let `TcpEndpoint` manage timeout
         endpoint = TcpEndpoint(host, port)

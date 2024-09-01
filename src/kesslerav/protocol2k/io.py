@@ -18,7 +18,8 @@ class Command(IntEnum):
   RECALL_VIDEO_STATUS = 4
   ERROR = 16
   PANEL_LOCK = 30
-  QUERY_OUTPUT_STATUS = 6 # Query audio status so we can transparently cope with audio only matrices - for video matrices the audio routing should always match the video routing
+  QUERY_VIDEO_OUTPUT_STATUS = 5
+  QUERY_AUDIO_OUTPUT_STATUS = 6
   QUERY_PANEL_LOCK = 31
   IDENTIFY_MACHINE = 61
   DEFINE_MACHINE = 62
