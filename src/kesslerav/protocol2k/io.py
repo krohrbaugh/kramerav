@@ -28,16 +28,12 @@ class Command(IntEnum):
   def is_supported(cls, cmd_id: int) -> bool:
     return cmd_id in iter(Command)
 
-
 # Validation rules: limit I/O values to one byte
 _VALUE_MIN = 0
 _VALUE_MAX = 128 # Only 7 bits available for data transport
 _VALID_RANGE: range = range(_VALUE_MIN, _VALUE_MAX)
 
-
-def _validated_value(
-    maybe_value: Optional[int],
-     default_value: int = 0) -> int:
+def _validated_value(maybe_value: Optional[int], default_value: int = 0) -> int:
   if maybe_value is None:
     return default_value
   if maybe_value not in _VALID_RANGE:
@@ -237,8 +233,7 @@ class TcpDevice:
     ):
     self._endpoint = endpoint
 
-  def process(self, instructions: list[Instruction]
-              | Instruction) -> list[Instruction]:
+  def process(self, instructions: list[Instruction] | Instruction) -> list[Instruction]:
     try:
       _ = iter(instructions)
     except TypeError:
@@ -271,21 +266,21 @@ class TcpDevice:
       instruction: Instruction,
       conn: socket.socket
     ) -> list[Instruction]:
-    req_bytes= Codec.encode(instruction)
+    req_bytes = Codec.encode(instruction)
     conn.send(req_bytes)
+
     # Device can return multiple instructions when its physical controls are
     # used. To capture them all (to reconstruct device state) we read using a
     # buffer that can hold multiple instructions and then return them all in
     # chronological event order.
-    result: list[Instruction]= []
+    result: list[Instruction] = []
     try:
       while len(result) < 1:
-        time.sleep(0.5) # Slow down to prevent 'port already in use' errors when interacting with serial over TCP TODO configurable, default off
-        data= conn.recv(TcpDevice.BUFFER_SIZE_BYTES)
-        responses= struct.iter_unpack(Instruction.FORMAT, data)
+        data = conn.recv(TcpDevice.BUFFER_SIZE_BYTES)
+        responses = struct.iter_unpack(Instruction.FORMAT, data)
         for response in responses:
-          resp_bytes= response[0].to_bytes(Instruction.SIZE_BYTES)
-          instruction= Codec.decode(resp_bytes)
+          resp_bytes = response[0].to_bytes(Instruction.SIZE_BYTES)
+          instruction = Codec.decode(resp_bytes)
           result.append(instruction)
     except TimeoutError:
       LOGGER.info(

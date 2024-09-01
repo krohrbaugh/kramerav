@@ -21,11 +21,11 @@ def get_tcp_media_switch(
     port: Optional[int] = None,
     timeout_sec: Optional[float] = None,
     machine_id: Optional[int] = None
-) -> list[MediaSwitchProtocol]:
-    if timeout_sec is None:
-        # Let `TcpEndpoint` manage timeout
-        endpoint = TcpEndpoint(host, port)
-    else:
-        endpoint = TcpEndpoint(host, port, timeout_sec)
-    tcp_device = TcpDevice(endpoint)
-    return get_switch_or_matrix(tcp_device, machine_id)
+  ) -> MediaSwitchProtocol:
+  if timeout_sec is None:
+    # Let `TcpEndpoint` manage timeout
+    endpoint = TcpEndpoint(host, port)
+  else:
+    endpoint = TcpEndpoint(host, port, timeout_sec)
+  tcp_device = TcpDevice(endpoint)
+  return get_switch_or_matrix(tcp_device, machine_id)
