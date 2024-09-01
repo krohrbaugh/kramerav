@@ -11,7 +11,7 @@ def get_media_switch(
     url: str,
     timeout_sec: Optional[float] = None,
     machine_id: Optional[int] = None
-  ) -> MediaSwitch:
+  ) -> list[MediaSwitch]:
   """
   Create media switch representation whose state can be accessed via the specified
   URL.
@@ -55,8 +55,8 @@ def get_media_switch(
       allows the underlying protocol driver to determine.
 
   Returns:
-    MediaSwitch: Representation of the media switch device, including methods for
-      controlling it (e.g., selecting sources.)
+    list[MediaSwitch]: Representation of the media switch device, including methods for
+      controlling it (e.g., selecting sources.). Each output of a matrix-type device is a MediaSwitch instance. Switches will have only one instance.
   """
   endpoint = parse_url(url)
   if endpoint.protocol == PROTOCOL_2K and endpoint.scheme == SCHEME_TCP:

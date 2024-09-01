@@ -35,9 +35,15 @@ class MediaSwitch(Protocol):
     """
 
   @property
+  def selected_audio_source(self) -> int:
+    """
+    Returns the input number of the selected audio source
+    """
+
+  @property
   def is_locked(self) -> bool:
     """ Returns `true` when front panel is locked, `false` otherwise.
-    
+
     Note that the device can still be controlled remotely when front panel is
     locked.
     """
